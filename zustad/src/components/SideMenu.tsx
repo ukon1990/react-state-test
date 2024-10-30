@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import {FC, useEffect} from 'react';
 import { Drawer, List, ListItemButton, ListItemText } from '@mui/material';
 import useMovieStore from '../store/useMovieStore';
 import { Genre } from '../types/Genre';
@@ -8,7 +8,7 @@ interface SideMenuProps {
     onClose: () => void;
 }
 
-export const SideMenu: React.FC<SideMenuProps> = ({ open, onClose }) => {
+export const SideMenu: FC<SideMenuProps> = ({ open, onClose }) => {
     const { genres, fetchGenres, setSelectedGenre, selectedGenre, fetchMovies } = useMovieStore();
 
     useEffect(() => {
