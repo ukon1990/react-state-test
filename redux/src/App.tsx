@@ -4,7 +4,9 @@ import { Menu as MenuIcon, Search as SearchIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import {SideMenu} from './components/SideMenu';
 import {MovieList} from './components/MovieList';
-import useMovieStore from './store/useMovieStore';
+import {AppDispatch} from './store/store.ts';
+import {useDispatch} from "react-redux";
+import {fetchMovies, setSearchQuery} from "./store/movieSlice.ts";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -36,15 +38,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const App: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { setSearchQuery, fetchMovies } = useMovieStore();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [localSearchQuery, setLocalSearchQuery] = useState('');
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
+        setLocalSearchQuery(event.target.value);
     };
 
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        fetchMovies();
+        dispatch(setSearchQuery(localSearchQuery));
+        dispatch(fetchMovies());
     };
 
     return (
@@ -55,7 +60,7 @@ const App: React.FC = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Zustand Movie App
+                        Redux Movie App
                     </Typography>
                     <form onSubmit={handleSearchSubmit} style={{ display: 'flex', flexGrow: 1 }}>
                         <Search>
