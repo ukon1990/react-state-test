@@ -1,0 +1,1 @@
+The thought here is to split the local state and the caching of API calls away from each other
